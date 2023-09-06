@@ -123,8 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   settingItem: {
-    marginLeft: 20,
-    marginRight: 20,
+    margin: 20,
   },
   settingItemTitle: {},
   userNameArea: {
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
   },
   modalContainer: {},
   modalBackdrop: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalHeder: {
     alignItems: 'center',

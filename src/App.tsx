@@ -13,6 +13,8 @@ import Login from './screens/Login';
 import Menu from './screens/Menu';
 import RootStackNav from './navigation/RootStackNav';
 //import UserContextProvider from './context/useUserContext';
+import {default as theme} from '../theme.json';
+import {default as mapping} from './mapping.json';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +22,15 @@ export default function App() {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
+      {/*<ApplicationProvider {...eva} theme={eva.light}>*/}
+      {/*<ApplicationProvider {...eva} customMapping={mapping} theme={eva.dark}>*/}
+      <ApplicationProvider {...eva} theme={{...eva.light, ...theme}}>
+        {/*
+      <ApplicationProvider
+        {...eva}
+        customMapping={mapping}
+        theme={{...eva.dark, ...theme}}>
+          */}
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
