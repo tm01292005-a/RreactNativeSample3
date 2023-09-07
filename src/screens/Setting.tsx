@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, Card, Modal, Text, Layout} from '@ui-kitten/components';
+import storage from '../storage/storage';
 
 // モーダルウィンドウ(フッタ部分)
 export const ModalFooter: React.FC = props => {
@@ -51,8 +52,22 @@ const Setting = props => {
    * 初回画面レンダー時に実行
    */
   useEffect(() => {
-    setUserName('ユーザー１'); // TODO ログイン画面から渡ってきたユーザー名を設定する
-    console.log('画面更新');
+    storage.load({
+      key: 'loginState',
+      autoSync: true,
+      syncInBackground: true,
+      syncParams: {
+        extraFetchOptions: {
+        },
+        someFlag: true
+      }
+    }).then(ret => {
+      setUserName(ret.userName);
+      console.log(userName);
+      console.log('画面更新');
+    }).catch(err => {
+      console.log('load failed.');
+    });
   }, []);
 
   /**
@@ -61,6 +76,9 @@ const Setting = props => {
   const onLogout = () => {
     // TODO 認証方式に合わせてログアウト処理を実装
     console.log('ログアウト');
+    storage.remove({
+      key : 'loginState'
+    });
     setModalVisible(false);
     props.navigation.navigate('Login');
   };
@@ -83,30 +101,34 @@ const Setting = props => {
 
   return (
     <Layout style={styles.container}>
-      <Layout style={styles.settingItem}>
-        <Text style={styles.settingItemTitle} category="h6">
-          ユーザー名
-        </Text>
-        <Layout style={styles.userNameArea}>
-          <Text style={styles.userName} category="h6" status="info">
-            {userName}
+      <Layout style={styles.settingArea}>
+        <Layout style={styles.settingItem}>
+          <Text style={styles.settingItemTitle} category="h6">
+            ユーザー名
           </Text>
+          <Layout style={styles.userNameArea}>
+            <Text style={styles.userName} category="h6" status="info">
+              {userName}
+            </Text>
+          </Layout>
+          <Button
+            size="large"
+            style={styles.settingBtn}
+            onPress={() => setModalVisible(true)}>
+            ログアウト
+          </Button>
         </Layout>
-        <Button
-          size="large"
-          style={styles.settingBtn}
-          onPress={() => setModalVisible(true)}>
-          ログアウト
-        </Button>
-        <Text style={styles.settingItemTitle} category="h6">
-          情報
-        </Text>
-        <Button
-          size="large"
-          style={styles.settingBtn}
-          onPress={onTermsOfService}>
-          <Text>利用規約</Text>
-        </Button>
+        <Layout style={styles.settingItem}>
+          <Text style={styles.settingItemTitle} category="h6">
+            情報
+          </Text>
+          <Button
+            size="large"
+            style={styles.settingBtn}
+            onPress={onTermsOfService}>
+            <Text>利用規約</Text>
+          </Button>
+        </Layout>
       </Layout>
       {/* モーダルウィンドウ */}
       <ModalDialog
@@ -122,8 +144,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  settingArea: {
+    marginLeft: 15,
+    marginRight: 15,
+  },
   settingItem: {
-    margin: 20,
+    marginTop: 32,
   },
   settingItemTitle: {},
   userNameArea: {
@@ -133,8 +159,6 @@ const styles = StyleSheet.create({
   },
   userName: {},
   settingBtn: {
-    marginTop: 10,
-    marginBottom: 30,
   },
   modalContainer: {},
   modalBackdrop: {
