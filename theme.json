@@ -1,5 +1,16 @@
 {
   /* カラー */
+  /*
+  "color-primary-100": "#D6E4FF",
+  "color-primary-200": "#ADC8FF",
+  "color-primary-300": "#84A9FF",
+  "color-primary-400": "#6690FF",
+  "color-primary-500": "#3366FF",
+  "color-primary-600": "#254EDB",
+  "color-primary-700": "#1939B7",
+  "color-primary-800": "#102693",
+  "color-primary-900": "#091A7A",
+  */
   "color-primary-100": "#FEF5E5",
   "color-primary-200": "#FEE8CB",
   "color-primary-300": "#FCD7B1",
@@ -22,7 +33,8 @@
   "color-info-200": "#AEECFE",
   "color-info-300": "#86DBFD",
   "color-info-400": "#67C9FB",
-  "color-info-500": "#36ABF9",
+  //"color-info-500": "#36ABF9",
+  "color-info-500": "#FFFFFF",
   "color-info-600": "#2786D6",
   "color-info-700": "#1B64B3",
   "color-info-800": "#114790",
@@ -51,7 +63,8 @@
   "color-basic-200": "#F5F5F5",
   "color-basic-300": "#F5F5F5",
   "color-basic-400": "#D4D4D4",
-  "color-basic-500": "#B3B3B3",
+  //"color-basic-500": "#B3B3B3",
+  "color-basic-500": "#FFFFFF66",
   "color-basic-600": "#808080",
   "color-basic-700": "#4A4A4A",
   "color-basic-800": "#383838",

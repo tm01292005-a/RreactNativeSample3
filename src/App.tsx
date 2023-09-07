@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
@@ -11,10 +10,8 @@ import Setting from './screens/Setting';
 import TermsOfService from './screens/TermsOfService';
 import Login from './screens/Login';
 import Menu from './screens/Menu';
-import RootStackNav from './navigation/RootStackNav';
-//import UserContextProvider from './context/useUserContext';
 import {default as theme} from '../theme.json';
-import {default as mapping} from './mapping.json';
+import {default as mapping} from '../mapping.json';
 
 const Stack = createStackNavigator();
 
@@ -24,13 +21,11 @@ export default function App() {
       <IconRegistry icons={EvaIconsPack} />
       {/*<ApplicationProvider {...eva} theme={eva.light}>*/}
       {/*<ApplicationProvider {...eva} customMapping={mapping} theme={eva.dark}>*/}
-      <ApplicationProvider {...eva} theme={{...eva.light, ...theme}}>
-        {/*
+      {/*<ApplicationProvider {...eva} theme={{...eva.light, ...theme}}>*/}
       <ApplicationProvider
         {...eva}
         customMapping={mapping}
         theme={{...eva.dark, ...theme}}>
-          */}
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen
