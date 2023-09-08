@@ -1,15 +1,14 @@
-import React, {useContext, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {createStackNavigator} from '@react-navigation/stack';
 import 'react-native-gesture-handler';
-import Setting from './screens/Setting';
-import TermsOfService from './screens/TermsOfService';
-import Login from './screens/Login';
-import Menu from './screens/Menu';
+import Setting from './Setting';
+import TermsOfService from './TermsOfService';
+import Login from './Login';
+import Menu from './Menu';
 import {default as theme} from '../theme.json';
 import {default as mapping} from '../mapping.json';
 
@@ -25,7 +24,7 @@ export default function App() {
       <ApplicationProvider
         {...eva}
         customMapping={mapping}
-        theme={{...eva.dark, ...theme}}>
+        theme={{...eva.light, ...theme}}>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen

@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Button, Text, Layout} from '@ui-kitten/components';
 import {useNavigation} from '@react-navigation/native';
-import storage from '../storage/storage';
+import storage from './storage/storage';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -14,7 +14,7 @@ const Login = () => {
       data: {
         userName: 'ユーザー１',
       },
-      expires: 1000 * 3600
+      expires: 1000 * 3600,
     });
 
     navigation.navigate('Menu');
