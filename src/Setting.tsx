@@ -1,11 +1,22 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import {Button, Card, Modal, Text, Layout} from '@ui-kitten/components';
-import storage from '../storage/storage';
+import {
+  Button,
+  Card,
+  Modal,
+  Text,
+  useTheme,
+  Layout,
+} from '@ui-kitten/components';
+import storage from './storage/storage';
 
 // モーダルウィンドウ(フッタ部分)
-export const ModalFooter: React.FC = props => {
+interface ModalFooterProps {
+  onLogout: Function;
+  onLogoutCancel: Function;
+}
+export const ModalFooter: React.FC<ModalFooterProps> = props => {
   return (
     <Layout style={styles.modalBtnContainer}>
       <Button style={styles.modalBtn} onPress={props.onLogout}>
@@ -19,7 +30,12 @@ export const ModalFooter: React.FC = props => {
 };
 
 // モーダルウィンドウ
-const ModalDialog: React.FC = props => {
+interface ModalProps {
+  modalVisible: boolean;
+  onLogout: Function;
+  onLogoutCancel: Function;
+}
+const ModalDialog: React.FC<ModalProps> = props => {
   return (
     <Modal
       style={styles.modalContainer}
@@ -27,7 +43,7 @@ const ModalDialog: React.FC = props => {
       backdropStyle={styles.modalBackdrop}
       animationType="fade">
       <Card disabled={true}>
-        <Layout style={styles.modalHeder}>
+        <Layout style={styles.modalHeader}>
           <Text category="h6">ZConnect</Text>
           <Text category="s1">ログアウトします。よろしいですか？</Text>
         </Layout>
@@ -43,31 +59,34 @@ const ModalDialog: React.FC = props => {
 const Setting = props => {
   //const userContext = useUserContext();
   //const navigation = useNavigation();
+  // テーマ
+  const theme = useTheme();
   // モーダル表示フラグ
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   // ユーザー名
   const [userName, setUserName] = useState<string>('');
-
   /**
    * 初回画面レンダー時に実行
    */
   useEffect(() => {
-    storage.load({
-      key: 'loginState',
-      autoSync: true,
-      syncInBackground: true,
-      syncParams: {
-        extraFetchOptions: {
+    storage
+      .load({
+        key: 'loginState',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          extraFetchOptions: {},
+          someFlag: true,
         },
-        someFlag: true
-      }
-    }).then(ret => {
-      setUserName(ret.userName);
-      console.log(userName);
-      console.log('画面更新');
-    }).catch(err => {
-      console.log('load failed.');
-    });
+      })
+      .then(ret => {
+        setUserName(ret.userName);
+        console.log(userName);
+        console.log('画面更新');
+      })
+      .catch(err => {
+        console.log('load failed.');
+      });
   }, []);
 
   /**
@@ -75,9 +94,9 @@ const Setting = props => {
    */
   const onLogout = () => {
     // TODO 認証方式に合わせてログアウト処理を実装
-    console.log('ログアウト');
+    // ストレージからユーザー名削除
     storage.remove({
-      key : 'loginState'
+      key: 'loginState',
     });
     setModalVisible(false);
     props.navigation.navigate('Login');
@@ -87,7 +106,6 @@ const Setting = props => {
    * ログアウトキャンセルイベント
    */
   const onLogoutCancel = () => {
-    console.log('キャンセル');
     setModalVisible(false);
   };
 
@@ -95,7 +113,6 @@ const Setting = props => {
    * [利用規約]ボタンイベント
    */
   const onTermsOfService = () => {
-    console.log('利用規約規約へ画面遷移');
     props.navigation.navigate('TermsOfService');
   };
 
@@ -103,11 +120,13 @@ const Setting = props => {
     <Layout style={styles.container}>
       <Layout style={styles.settingArea}>
         <Layout style={styles.settingItem}>
-          <Text style={styles.settingItemTitle} category="h6">
+          <Text
+            style={[styles.settingItemTitle, {color: theme['color-basic-500']}]}
+            category="h6">
             ユーザー名
           </Text>
           <Layout style={styles.userNameArea}>
-            <Text style={styles.userName} category="h6" status="info">
+            <Text style={styles.userName} category="h6">
               {userName}
             </Text>
           </Layout>
@@ -119,9 +138,12 @@ const Setting = props => {
           </Button>
         </Layout>
         <Layout style={styles.settingItem}>
-          <Text style={styles.settingItemTitle} category="h6">
+          <Text
+            style={[styles.settingItemTitle, {color: theme['color-basic-500']}]}
+            category="h6">
             情報
           </Text>
+          <Layout style={styles.settingItemBottom} />
           <Button
             size="large"
             style={styles.settingBtn}
@@ -151,6 +173,9 @@ const styles = StyleSheet.create({
   settingItem: {
     marginTop: 32,
   },
+  settingItemBottom: {
+    height: 10,
+  },
   settingItemTitle: {},
   userNameArea: {
     alignItems: 'center',
@@ -158,25 +183,24 @@ const styles = StyleSheet.create({
     height: 40,
   },
   userName: {},
-  settingBtn: {
-  },
+  settingBtn: {},
   modalContainer: {},
   modalBackdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  modalHeder: {
+  modalHeader: {
     alignItems: 'center',
     justifyContent: 'center',
   },
   modalBtnContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    margin: 10,
   },
   modalBtn: {
     flex: 1,
     marginTop: 20,
     marginLeft: 5,
+    marginRight: 5,
   },
 });
 
